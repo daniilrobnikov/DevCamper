@@ -2,6 +2,9 @@ const express = require('express')
 const dotenv = require('dotenv').config({ path: './config/config.env' })
 const morgan = require('morgan')
 const colors = require('colors')
+const errorHandler = require('./middleware/error')
+
+// Connect to MongoDB database
 const connectDB = require('./config/db')
 connectDB()
 
@@ -9,6 +12,9 @@ connectDB()
 const bootcamps = require('./routes/bootcamps')
 
 const app = express()
+
+// Body parser
+app.use(express.json())
 
 // Mount middleware
 if (process.env.NODE_ENV === 'development') {
@@ -18,6 +24,10 @@ if (process.env.NODE_ENV === 'development') {
 // Mount routers
 app.use('/api/v1/bootcamps', bootcamps)
 
+app.use(errorHandler)
+
+// _____________________________________________________________________________
+// Start server
 const PORT = process.env.PORT || 5000
 
 const server = app.listen(
