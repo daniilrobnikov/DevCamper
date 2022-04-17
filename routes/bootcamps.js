@@ -19,6 +19,8 @@ const router = express.Router()
 // Re-route into other resource routers
 const courseRouter = require('./courses')
 router.use('/:bootcampId/courses', courseRouter)
+const reviewRouter = require('./reviews')
+router.use('/:bootcampId/reviews', reviewRouter)
 
 router
   .route('/')

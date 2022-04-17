@@ -20,7 +20,7 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
   }
 })
 
-// @desc    Get single courses
+// @desc    Get single course
 // @route   GET /api/v1/course/:id
 // @access  Public
 exports.getCourse = asyncHandler(async (req, res, next) => {

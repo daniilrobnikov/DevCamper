@@ -4,6 +4,7 @@ const dotenv = require('dotenv').config({ path: './config/config.env' })
 const morgan = require('morgan')
 const colors = require('colors')
 const fileupload = require('express-fileupload')
+const mongoSanitize = require('express-mongo-sanitize')
 const cookieParser = require('cookie-parser')
 const errorHandler = require('./middleware/error')
 
@@ -16,22 +17,18 @@ const bootcamps = require('./routes/bootcamps')
 const courses = require('./routes/courses')
 const auth = require('./routes/auth')
 const users = require('./routes/users')
+const reviews = require('./routes/reviews')
 // ______________________________________________________________
 const app = express()
-
-// Body parser
 app.use(express.json())
 
-// Cookie parser
+// Dev middleware
+app.use(mongoSanitize())
 app.use(cookieParser())
-
-// Mount middleware
+app.use(fileupload())
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
-
-app.use(fileupload())
-
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')))
 
@@ -40,6 +37,7 @@ app.use('/api/v1/bootcamps', bootcamps)
 app.use('/api/v1/courses', courses)
 app.use('/api/v1/auth', auth)
 app.use('/api/v1/users', users)
+app.use('/api/v1/reviews', reviews)
 
 app.use(errorHandler)
 
