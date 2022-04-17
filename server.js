@@ -1,10 +1,15 @@
 const path = require('path')
 const express = require('express')
 const dotenv = require('dotenv').config({ path: './config/config.env' })
-const morgan = require('morgan')
 const colors = require('colors')
-const fileupload = require('express-fileupload')
+const morgan = require('morgan')
+const hpp = require('hpp')
+const cors = require('cors')
+const helmet = require('helmet')
+const xss = require('xss-clean')
+const rateLimit = require('express-rate-limit')
 const mongoSanitize = require('express-mongo-sanitize')
+const fileupload = require('express-fileupload')
 const cookieParser = require('cookie-parser')
 const errorHandler = require('./middleware/error')
 
@@ -22,16 +27,25 @@ const reviews = require('./routes/reviews')
 const app = express()
 app.use(express.json())
 
-// Dev middleware
-app.use(mongoSanitize())
-app.use(cookieParser())
+// Addons to express: Security, file upload, etc.
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+})
+app.use(limiter)
+app.use(cors())
+app.use(xss())
+app.use(hpp())
+app.use(helmet())
 app.use(fileupload())
+app.use(cookieParser())
+app.use(mongoSanitize())
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')))
-
+// ______________________________________________________________
 // Mount routers
 app.use('/api/v1/bootcamps', bootcamps)
 app.use('/api/v1/courses', courses)
@@ -41,7 +55,7 @@ app.use('/api/v1/reviews', reviews)
 
 app.use(errorHandler)
 
-// _____________________________________________________________________________
+// ______________________________________________________________
 // Start server
 const PORT = process.env.PORT || 5000
 
