@@ -10,7 +10,7 @@ const {
   bootcampPhotoUpload,
 } = require('../controllers/bootcamps')
 
-// Import middleware
+// Import middleware & Asign Permissions
 const advancedResults = require('../middleware/advancedResults')
 const { protect, authorize } = require('../middleware/auth')
 // _____________________________________________________________
