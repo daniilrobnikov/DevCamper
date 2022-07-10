@@ -13,6 +13,16 @@ This project is a Back-End API
 
 [Postman Documentation](https://documenter.getpostman.com/view/20275892/Uyr5oKTw#53e10778-e64b-4cfe-8083-f80cb947cdcd)
 
+
+## Features
+
+
+- Custom Database Seeder (bootcamps, courses, reviews & users)
+- Advanced Query (pagination, filter, search feature, etc)
+- Emailing Password Reset Token with [nodemailer](https://www.npmjs.com/package/nodemailer)
+- Security: [Rate Limit](https://www.npmjs.com/package/express-rate-limit), [CORS](https://www.npmjs.com/package/cors), [XSS](https://www.npmjs.com/package/xss-clean), [HPP](https://www.npmjs.com/package/hpp), [Helmet](https://www.npmjs.com/package/helmet)
+- Geocoding: [node-geocoder](https://www.npmjs.com/package/node-geocoder)
+- [Custom Error Handling](https://github.com/daniilrobnikov/DevCamper/blob/main/middleware/error.js)
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your config/config.env file
@@ -62,8 +72,6 @@ node seeder -d
 
 ## API Reference
 
-Basic CRUD functionality for products
-
 #### Get all bootcamps
 
 ```
@@ -73,7 +81,7 @@ Basic CRUD functionality for products
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | `api_key` | `string` | **Required**. Your API key |
-| `query`   | `string` | Retrieve only bootcamps that match key values from [Bootcamps Schema](https://github.com/daniilrobnikov/DevCamper/blob/main/models/Bootcamp.js) f.e. `?name=Devworks Bootcamp` |
+| `query`   | `string` | Filter response by key values from [Bootcamps Schema](https://github.com/daniilrobnikov/DevCamper/blob/main/models/Bootcamp.js) f.e. `?name=Devworks Bootcamp` |
 
 
 #### Get bootcamp
